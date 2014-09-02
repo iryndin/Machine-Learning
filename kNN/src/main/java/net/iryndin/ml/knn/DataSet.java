@@ -1,8 +1,6 @@
 package net.iryndin.ml.knn;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class DataSet implements Cloneable, Iterable<DataPiece> {
     private final List<DataPiece> data;
@@ -68,12 +66,97 @@ public class DataSet implements Cloneable, Iterable<DataPiece> {
     @Override
     public String toString() {
         return "DataSet{" +
-                "data=" + data +
+                "size=" + data.size()+
+                ",data=" + data +
                 '}';
+    }
+
+    public Set<String> getLabels() {
+        Set<String> labels = new TreeSet<>();
+        for (DataPiece dp : data) {
+            if (dp.getLabel() != null) {
+                labels.add(dp.getLabel());
+            }
+        }
+        return labels;
     }
 
     @Override
     public Iterator<DataPiece> iterator() {
         return data.iterator();
     }
+
+    public DataSet sampling(double portion) {
+        if (portion <= 0 || portion >= 1.0) {
+            throw new IllegalArgumentException("portion should be between 0.0 and 1.0 exclusive");
+        }
+
+        if (portion <= 0.5) {
+            int sampleSize = (int)(data.size()*portion);
+            Set<Integer> indexSet = randomIndexes(sampleSize, data.size());
+            List<DataPiece> list = new ArrayList<>(sampleSize);
+            for (int i : indexSet) {
+                list.add(data.get(i).clone());
+            }
+            return new DataSet(list);
+        } else {
+            int sampleSize = (int)(data.size()*(1.0-portion));
+            Set<Integer> indexSet = randomIndexes(sampleSize, data.size());
+            List<DataPiece> list = new ArrayList<>(sampleSize);
+            for (int i=0; i<data.size(); i++) {
+                if (!indexSet.contains(i)) {
+                    list.add(data.get(i).clone());
+                }
+            }
+            return new DataSet(list);
+        }
+    }
+
+    public DataSet[] sampling2(double portion) {
+        if (portion <= 0 || portion >= 1.0) {
+            throw new IllegalArgumentException("portion should be between 0.0 and 1.0 exclusive");
+        }
+
+        if (portion <= 0.5) {
+            int sampleSize = (int)(data.size()*portion);
+            Set<Integer> indexSet = randomIndexes(sampleSize, data.size());
+            List<DataPiece> list1 = new ArrayList<>(sampleSize);
+            List<DataPiece> list2 = new ArrayList<>(data.size() - sampleSize);
+            for (int i=0; i<data.size(); i++) {
+                if (indexSet.contains(i)) {
+                    list1.add(data.get(i).clone());
+                } else {
+                    list2.add(data.get(i).clone());
+                }
+            }
+            return new DataSet[]{new DataSet(list1), new DataSet(list2)};
+        } else {
+            int sampleSize = (int)Math.round(data.size()*(1.0-portion));
+            Set<Integer> indexSet = randomIndexes(sampleSize, data.size());
+            List<DataPiece> list1 = new ArrayList<>(data.size() - sampleSize);
+            List<DataPiece> list2 = new ArrayList<>(sampleSize);
+            for (int i=0; i<data.size(); i++) {
+                if (indexSet.contains(i)) {
+                    list2.add(data.get(i).clone());
+                } else {
+                    list1.add(data.get(i).clone());
+                }
+            }
+            return new DataSet[]{new DataSet(list1), new DataSet(list2)};
+        }
+    }
+
+    static Set<Integer> randomIndexes(int setSize, int maxValue) {
+        Set<Integer> indexSet = new HashSet<>(setSize);
+        while (indexSet.size() < setSize) {
+            int idx;
+            do {
+                idx = new Random().nextInt(maxValue);
+            } while (indexSet.contains(idx));
+            indexSet.add(idx);
+        }
+        return indexSet;
+    }
+
+    //public DataSet
 }
