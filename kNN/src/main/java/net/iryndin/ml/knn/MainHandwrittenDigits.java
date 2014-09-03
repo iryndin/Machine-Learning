@@ -7,6 +7,9 @@ import java.util.List;
 
 public class MainHandwrittenDigits {
 
+    public static final String FILE_TRAINSET = "handwrittenDigits_train.csv";
+    public static final String FILE_TESTSET = "handwrittenDigits_test.csv";
+    public static final String FILE_RESULT = "result.csv";
 
     public static void main(String[] args) throws IOException {
         //calibrateN();
@@ -15,12 +18,12 @@ public class MainHandwrittenDigits {
 
     public static void handleKaggleTestSet() throws IOException {
         DataSetFileReader dsfr = new DataSetFileReader(",", false, LabelPlacementEnum.FIRST_COLUMN);
-        DataSet trainingDataSet = dsfr.read("handwrittenDigits_train.csv");
+        DataSet trainingDataSet = dsfr.read(FILE_TRAINSET);
         System.out.println("training dataset size: " + trainingDataSet.size());
         System.out.println("Labels: " + trainingDataSet.getLabels());
 
         dsfr = new DataSetFileReader(",", false, LabelPlacementEnum.NOLABEL);
-        DataSet testDataSet = dsfr.read("handwrittenDigits_test.csv");
+        DataSet testDataSet = dsfr.read(FILE_TESTSET);
         System.out.println("test dataset size: " + testDataSet.size());
 
         KnnClassifier knnClassifier = new KnnClassifier(trainingDataSet, new EuclidDistance());
@@ -44,7 +47,7 @@ public class MainHandwrittenDigits {
         }
         final long elapsedMillis = System.currentTimeMillis() - startMillis;
         System.out.println("Total elapsed seconds: " + elapsedMillis/1000);
-        writeFile("result.csv",result);
+        writeFile(FILE_RESULT,result);
     }
 
     private static void writeFile(String filename, List<Integer> result) throws IOException {
