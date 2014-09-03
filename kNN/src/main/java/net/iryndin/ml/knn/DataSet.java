@@ -86,33 +86,7 @@ public class DataSet implements Cloneable, Iterable<DataPiece> {
         return data.iterator();
     }
 
-    public DataSet sampling(double portion) {
-        if (portion <= 0 || portion >= 1.0) {
-            throw new IllegalArgumentException("portion should be between 0.0 and 1.0 exclusive");
-        }
-
-        if (portion <= 0.5) {
-            int sampleSize = (int)(data.size()*portion);
-            Set<Integer> indexSet = randomIndexes(sampleSize, data.size());
-            List<DataPiece> list = new ArrayList<>(sampleSize);
-            for (int i : indexSet) {
-                list.add(data.get(i).clone());
-            }
-            return new DataSet(list);
-        } else {
-            int sampleSize = (int)(data.size()*(1.0-portion));
-            Set<Integer> indexSet = randomIndexes(sampleSize, data.size());
-            List<DataPiece> list = new ArrayList<>(sampleSize);
-            for (int i=0; i<data.size(); i++) {
-                if (!indexSet.contains(i)) {
-                    list.add(data.get(i).clone());
-                }
-            }
-            return new DataSet(list);
-        }
-    }
-
-    public DataSet[] sampling2(double portion) {
+    public DataSet[] sampling(double portion) {
         if (portion <= 0 || portion >= 1.0) {
             throw new IllegalArgumentException("portion should be between 0.0 and 1.0 exclusive");
         }

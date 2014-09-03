@@ -9,8 +9,8 @@ import java.util.List;
 public class DataSetFileReader {
     private final DataPieceLineReader dataPieceLineReader;
 
-    public DataSetFileReader(String separator, boolean hasName, boolean hasLabel) {
-        this.dataPieceLineReader = new DataPieceLineReader(separator, hasName, hasLabel);
+    public DataSetFileReader(String separator, boolean hasName, LabelPlacementEnum labelPlacementEnum) {
+        this.dataPieceLineReader = new DataPieceLineReader(separator, hasName, labelPlacementEnum);
     }
 
     public DataSet read(String filename) throws IOException {
