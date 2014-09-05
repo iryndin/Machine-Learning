@@ -1,0 +1,18 @@
+# taken from book: Programming Collective Intelligence by O`Reilly
+# page 143
+Referrer,Location,Read FAQ,Pages viewed,Service chosen
+Slashdot, USA, Yes, 18, None
+Google, France, Yes, 23, Premium
+Digg, USA, Yes, 24, Basic
+Kiwitobes, France, Yes, 23, Basic
+Google, UK, No, 21, Premium
+(direct), New Zealand, No, 12, None
+(direct), UK, No, 21, Basic
+Google, USA, No, 24, Premium
+Slashdot, France, Yes, 19, None
+Digg, USA, No, 18, None
+Google, UK, No, 18, None
+Kiwitobes, UK, No, 19, None
+Digg, New Zealand, Yes, 12, Basic
+Google, UK, Yes, 18, Basic
+Kiwitobes, France, Yes, 19, Basic
