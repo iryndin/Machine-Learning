@@ -11,6 +11,10 @@ public class DataPiece {
     private final Map<String,String> values;
     private final String label;
 
+    public DataPiece(DataPiece dp) {
+        this(dp.values, dp.label);
+    }
+
     public DataPiece(Map<String, String> values, String label) {
         this.values = values;
         this.label = label;
@@ -20,8 +24,12 @@ public class DataPiece {
         return values.keySet();
     }
 
-    public String getValue(String name) {
-        return values.get(name);
+    public String getValue(String columnName) {
+        return values.get(columnName);
+    }
+
+    public String removeValue(String columnName) {
+        return values.remove(columnName);
     }
 
     public String getLabel() {
@@ -43,5 +51,9 @@ public class DataPiece {
                 "label='" + label + '\'' +
                 ", values=" + values +
                 '}';
+    }
+
+    public void setValue(String columnName, String value) {
+        values.put(columnName, value);
     }
 }

@@ -1,6 +1,7 @@
 package net.iryndin.ml.dt;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class DataPieceLineReader {
@@ -27,7 +28,7 @@ public class DataPieceLineReader {
             return null;
         }
         String[] a = line.split(separator);
-        Map<String, String> map = new HashMap<>(a.length*2);
+        Map<String, String> map = new LinkedHashMap<>(a.length*2);
         String label = null;
         for (int i=0; i<a.length; i++) {
             String value = a[i].trim();

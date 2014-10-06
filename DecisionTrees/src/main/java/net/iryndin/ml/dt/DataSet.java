@@ -3,14 +3,21 @@ package net.iryndin.ml.dt;
 import java.util.*;
 
 public class DataSet implements Cloneable, Iterable<DataPiece> {
+    private final Set<String> columnNames;
     private final List<DataPiece> data;
+    private Map<String, Integer> labelMap;
 
     public DataSet(List<DataPiece> data) {
         this.data = data;
+        columnNames = data.get(0).getRowNames();
     }
 
     public int size() {
         return data.size();
+    }
+
+    public boolean isEmpty() {
+        return data.size() == 0;
     }
 
     public int getFeaturesQty() {
@@ -26,13 +33,8 @@ public class DataSet implements Cloneable, Iterable<DataPiece> {
         return new DataSet(list);
     }
 
-    public void selfCheck() throws Exception {
-        final int featuresQty = getFeaturesQty();
-        for (DataPiece dp : data) {
-            if (dp.getFeaturesQty() != featuresQty) {
-                throw new Exception("All data pieces should have the same quantity of values. Expected qty: " + featuresQty + ", wrong data piece: " + dp);
-            }
-        }
+    public Set<String> getColumnNames() {
+        return columnNames;
     }
 
     @Override
@@ -48,7 +50,18 @@ public class DataSet implements Cloneable, Iterable<DataPiece> {
         return data.iterator();
     }
 
+    /**
+     * Return labels with occurence count
+     * @return
+     */
     public Map<String, Integer> getLabels() {
+        if (labelMap == null) {
+            labelMap = calculateLabels();
+        }
+        return labelMap;
+    }
+
+    public Map<String, Integer> calculateLabels() {
         Map<String, Integer> map = new HashMap<>();
         for (DataPiece dp : data) {
             String label = dp.getLabel();
