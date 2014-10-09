@@ -4,17 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-/**
- * Created by iryndin on 08.10.14.
- */
 public class Bootstrapping {
 
     public DataSet withReplacement(DataSet dataset, double percentage) {
-        int dssize = dataset.size();
-        int sampleSize = 1+(int)Math.ceil(dssize*percentage);
+        int totalSize = dataset.size();
+        int sampleSize = 1+(int)Math.ceil(totalSize*percentage);
         List<DataPiece> list = new ArrayList<>(sampleSize);
         for (int i=0; i< sampleSize; i++) {
-            int j = new Random().nextInt(dssize);
+            int j = new Random().nextInt(totalSize);
             list.add(dataset.get(j));
         }
 

@@ -37,6 +37,19 @@ public class DataSet implements Cloneable, Iterable<DataPiece> {
         return columnNames;
     }
 
+    public void removeColumnName(String columnName) {
+        for (DataPiece dp : data) {
+            dp.removeValue(columnName);
+        }
+        columnNames.remove(columnName);
+    }
+
+    public void removeColumnNames(Iterable<String> columnNames) {
+        for (String columnName : columnNames) {
+            removeColumnName(columnName);
+        }
+    }
+
     @Override
     public String toString() {
         return "DataSet{" +
