@@ -6,7 +6,7 @@ import java.util.Random;
 
 public class Bootstrapping {
 
-    public DataSet withReplacement(DataSet dataset, double percentage) {
+    public static DataSet withReplacement(DataSet dataset, double percentage) {
         int totalSize = dataset.size();
         int sampleSize = 1+(int)Math.ceil(totalSize*percentage);
         List<DataPiece> list = new ArrayList<>(sampleSize);
